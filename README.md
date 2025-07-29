@@ -2,7 +2,10 @@
 
 Super light-weight and simple FFXI add-on for tracking Hover Shot stacks and validating the movement requirement for gaining stacks.
 
+Red = You need to move (more)
 ![wrong](images/nomove.png)
+
+Green = You may fire when ready!
 ![right](images/goodmove.png)
 
 Usage:
