@@ -1,6 +1,6 @@
 _addon.name = 'hovertracker'
 _addon.author = 'Kunel (Keramas)'
-_addon.version = '1.0'
+_addon.version = '1.1'
 _addon.commands = {'hovertracker', 'ht'}
 
 require('logger')
@@ -36,6 +36,11 @@ local settings = config.load({
 })
 
 local display = texts.new(settings.display)
+
+local last_position_check_time = 0
+local last_known_pos = get_player_pos()
+
+local MOVEMENT_THRESHOLD = 0.9 -- Grace buffer. Can be modified as needed for latency compensation.
 
 ------------------------------------------------------------------------------------
 -- Core functions
@@ -190,7 +195,7 @@ windower.register_event('action', function(act)
     local current_pos = get_player_pos()
     local moved = get_distance(hover_shot.last_pos, current_pos)
 
-    if not hover_shot.last_pos or moved >= 1 then
+    if not hover_shot.last_pos or moved >= MOVEMENT_THRESHOLD then
         hover_shot.moved_last_check = true
         if hover_shot.stacks < hover_shot.max_stacks then
             hover_shot.stacks = hover_shot.stacks + 1
@@ -233,6 +238,16 @@ windower.register_event('prerender', function()
         update_display()
     end
 end)
+
+windower.register_event('prerender', function()
+
+    local now = os.clock()
+    if now - last_position_check_time > 0.1 then
+        last_known_pos - get_player_pos()
+        last_position_check_time = now
+    end
+end)
+
 
 
 windower.register_event('addon command', function(cmd)
