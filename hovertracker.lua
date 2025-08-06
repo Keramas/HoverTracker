@@ -38,7 +38,7 @@ local settings = config.load({
 local display = texts.new(settings.display)
 
 local last_position_check_time = 0
-local last_known_pos = get_player_pos()
+local last_known_pos = {x=0, y=0}
 
 local MOVEMENT_THRESHOLD = 0.9 -- Grace buffer. Can be modified as needed for latency compensation.
 
@@ -96,6 +96,8 @@ function initialize()
         return
     end
     hovershotBuff = S(windower.ffxi.get_player().buffs):contains(hovershotBuffID)
+
+    last_known_pos = get_player_pos()
 end
 
 --------------------------------------------------------------------------------
