@@ -25,7 +25,4 @@ Commands:
 
 -- Manually reset stack count
 //ht reset
-
--- Enable log output for additional information on shots and distance moved
-//ht debug
 ```
